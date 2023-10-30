@@ -1,0 +1,78 @@
+{
+
+   "zone" : "STG", "sub_zone" : "___SUBZONE___" ,"component": "___IN_HIS_TABLE_SUFIX___",
+
+ 
+
+   "ingestionSteps": [
+
+   {
+
+      "readerType": "ReaderCsv",
+
+      "readerOptions": {
+
+         "infile": "___INFILE___",
+
+         "delimiter": "|",
+
+         "removeFirstLine": true   ,
+
+         "isCft" : true
+
+      },
+
+      "transformType": "TECH_STD_Add_fic_name_dat_eff_dat_etl",
+
+      "transformOptions" : {
+
+         "effdate": "___EFFDATE___",
+
+         "filename": "___INFILE___"
+
+      },
+
+      "writerType": "WriterHive",
+
+      "writerOptions" : {
+
+         "dbtable" : "___CORE_DBNAME___.in____IN_HIS_TABLE_SUFIX___" ,
+
+         "auto_create_table_on" : true
+
+      }
+
+   },
+
+   {
+
+      "readerType": "ReaderHiveTable",
+
+      "readerOptions": {
+
+         "dbtable": "___CORE_DBNAME___.in____IN_HIS_TABLE_SUFIX___"
+
+      },
+
+      "transformType": "TECH_STD_Clone_date_eff_to_date_eff_partition",
+
+      "transformOptions" : {} ,
+
+      "writerType": "WriterHive",
+
+      "writerOptions": {
+
+         "dbtable": "___CORE_DBNAME___.his____IN_HIS_TABLE_SUFIX___",
+
+         "default_partitions" : [ "dat_eff_partition"  ] ,
+
+         "auto_create_table_on" : true
+
+      }
+
+   }
+
+   ]
+
+}
+
